@@ -1,13 +1,13 @@
 @echo off
 cls
 echo === COMPILATION ===
-rgbasm -ogugger.obj gugger.asm
+rgbasm -i includes/ -o gugger.obj gugger.asm
 echo.
 echo COMPILATION TERMINEE
 echo.
 echo.
 echo === LINKING ===
-rgblink -mgugger.map -ngugger.sym -ogugger.gb gugger.obj
+rgblink -m gugger.map -n gugger.sym -o gugger.gb gugger.obj
 echo.
 echo LINKING TERMINE
 echo.
