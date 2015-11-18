@@ -1,0 +1,121 @@
+ROM Bank #0 (HOME):
+  SECTION: $0000-$0007 ($0008 bytes)
+           $0000 = callFarBank
+  SECTION: $0008-$000B ($0004 bytes)
+           $0008 = jumpFarBank
+  SECTION: $000D-$0017 ($000B bytes)
+           $0011 = fillBytes
+           $0010 = fillMemory
+           $000D = handleCunderflow
+  SECTION: $0018-$001E ($0007 bytes)
+           $0018 = waitFrames
+  SECTION: $0020-$0020 ($0001 bytes)
+           $0020 = rst20
+  SECTION: $0028-$0028 ($0001 bytes)
+           $0028 = rst28
+  SECTION: $0030-$0030 ($0001 bytes)
+           $0030 = rst30
+  SECTION: $0038-$0038 ($0001 bytes)
+           $0038 = rst38
+  SECTION: $0040-$0040 ($0001 bytes)
+  SECTION: $0048-$0048 ($0001 bytes)
+  SECTION: $0050-$0050 ($0001 bytes)
+  SECTION: $0058-$0058 ($0001 bytes)
+  SECTION: $0060-$0060 ($0001 bytes)
+  SECTION: $0068-$00EE ($0087 bytes)
+           $0069 = copyBytes
+           $0086 = skipWaitFreeVRAMaccess
+           $007A = copyVRAM
+           $00A3 = VRAMisFree
+           $0098 = fillVRAM
+           $0092 = fillToVRAM
+           $0068 = copy
+           $00AF = DMAscript
+           $00BB = DMAscriptEnd
+           $0075 = copyToVRAM
+           $00BB = getKeys
+           $00B7 = DMAloop
+  SECTION: $0100-$014F ($0050 bytes)
+  SECTION: $0150-$02D2 ($0183 bytes)
+           $0150 = Start
+           $021F = printMOTD
+           $022C = printMOTD2
+           $02C5 = afterTitleMenu
+           $0252 = blinkPushSTART1
+           $026B = blinkPushSTART2
+           $023F = pushSTART
+           $02A8 = titleMenuCursor
+           $02B8 = switchTitleCursorPos
+           $0279 = blinkSTART
+           $020C = scrollDown
+    SLACK: $3D7F bytes
+
+ROM Bank #1:
+  SECTION: $4000-$4D70 ($0D71 bytes)
+           $426C = Tiles
+           $49AC = TileDataEnd
+           $4000 = unlicenseTileMap
+           $4130 = introTileMap
+           $4CF5 = sprites
+           $4D71 = spritesEnd
+           $4261 = introTileMap2
+           $4A06 = titleTiles
+           $4BE6 = titleTilesEnd
+           $4BE6 = titleTileMap
+           $4C79 = titleTileMapEnd
+           $4C79 = motdTiles
+           $4C9B = pushSTARTtiles
+           $4CAD = pushSTARTtilesEnd
+           $4CAD = menuOptions
+           $4CF5 = menuOptionsEnd
+    SLACK: $328F bytes
+
+ROM Bank #2:
+  SECTION: $4000-$3FFF ($0000 bytes)
+  EMPTY
+
+WRAM Bank #0:
+  EMPTY
+
+WRAM Bank #1:
+  EMPTY
+
+WRAM Bank #2:
+  EMPTY
+
+WRAM Bank #3:
+  EMPTY
+
+WRAM Bank #4:
+  EMPTY
+
+WRAM Bank #5:
+  EMPTY
+
+WRAM Bank #6:
+  EMPTY
+
+WRAM Bank #7:
+  EMPTY
+
+VRAM Bank #0:
+  EMPTY
+
+VRAM Bank #1:
+  EMPTY
+
+HRAM:
+  EMPTY
+
+SRAM Bank #0:
+  EMPTY
+
+SRAM Bank #1:
+  EMPTY
+
+SRAM Bank #2:
+  EMPTY
+
+SRAM Bank #3:
+  EMPTY
+
