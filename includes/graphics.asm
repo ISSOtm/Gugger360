@@ -122,9 +122,24 @@ Tiles::
 	dw $3C3C, $6666, $7E7E, $3C3C, $0000, $0000, $0000, $0000 ; 8
 	dw $0000, $0000, $0000, $0000, $3C3C, $7E7E, $6666, $7E7E
 	dw $3E3E, $0606, $7E7E, $3C3C, $0000, $0000, $0000, $0000 ; 9
+
+; Cadres
+	dw $0000, $3F3F, $7F7F, $7070, $6060, $6060, $6060, $6060 ; haut-gauche
+	dw $6060, $6060, $6060, $6060, $7070, $7F7F, $3F3F, $0000 ; bas-gauche
+	dw $0000, $FCFC, $FEFE, $0E0E, $0606, $0606, $0606, $0606 ; haut-droite
+	dw $0606, $0606, $0606, $0606, $0E0E, $FEFE, $FCFC, $0000 ; bas-droite
+	dw $0000, $FFFF, $FFFF, $0000, $0000, $0000, $0000, $0000 ; haut
+	dw $6060, $6060, $6060, $6060, $6060, $6060, $6060, $6060 ; gauche
+	dw $0606, $0606, $0606, $0606, $0606, $0606, $0606, $0606 ; droite
+	dw $0000, $0000, $0000, $0000, $0000, $FFFF, $FFFF, $0000 ; bas
+
+; Flèches
+	dw $0000, $0808, $1C1C, $3E3E, $7F7F, $0000, $0000, $0000 ; Flèche vers le haut
+	dw $0000, $0000, $0000, $7F7F, $3E3E, $1C1C, $0808, $0000 ; Flèche vers le bas
 TileDataEnd::
 
-	db "BRAVO, TU VIENS DE TROUVER UN EASTER EGG ! BIEN JOUE MEC, MAIS IL N'Y EN A PAS D'AUTRES :)"
+	ds 4
+	db "BRAVO, TU VIENS DE TROUVER UN EASTER EGG !  BIEN JOUE MEC, MAIS IL N'Y EN A PAS D'AUTRES :)"
 
 titleTiles::
 	dw $FFFF, $80FF, $BFFF, $A0E0, $A0E0, $AFEF, $A8EF, $AFEF
@@ -165,17 +180,14 @@ titleTileMap::
 	ds $12
 	db $11, $12, $13, $14, $15, $16, $17, $18, $19, $1A, $1B, $1C, $1D, $1E
 titleTileMapEnd::
+
 motdTiles::
 	db "ENCORE MIEUX QUE", 0
 	db "LE RUBIKS CUBE !", 0
+
 pushSTARTtiles::
 	db "APPUIE SUR START !"
 pushSTARTtilesEnd::
-menuOptions::
-	db $0F, "JOUER !"
-	ds $39
-	db "OPTIONS"
-menuOptionsEnd::
 
 sprites::
 	db 0, 0, $3C, $00
@@ -210,3 +222,14 @@ sprites::
 	db 0, 0, $3E, $00
 	db 0, 0, $3E, $20
 spritesEnd::
+
+DMAscript::
+	halt ; attente d'un Vblank
+	ld a, $C0
+	ld [DMA], a ; démarrage du transfert DMA ($C000 -> $C09F)
+	xor %11101000 ; $C0 xor $E8 = $28
+DMAloop:: ; $07E
+	dec a
+	jr nz, DMAloop ; ne PAS utiliser jp !!
+	ret ; NB : retourne a = 0
+DMAscriptEnd::

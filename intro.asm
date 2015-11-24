@@ -16,39 +16,33 @@ Start:: ; here we begin our adventure !
 	rst delayAframes
 
 	xor a
-	halt ; en théorie, il ne faut éteindre le LCD que pendant un Vblank (sur émulateur, osef mais je préfère le laisser :)
-	ld [LCDC], a ; extinction de l'écran pour démarrer le jeu
+	ld [WY], a
 
 	ld hl, tileDataBGOBJ
-	ld bc, $800
+	ld bc, $2000
 	call fillToVRAM ; on efface la VRAM pour être sûr de ce qu'il y a
-	ld hl, tileMap
-	ld bc, $1000
-	call fillToVRAM
+	
+	or $80
+	ld [WX], a
 
 ; on reset tous les graphismes
-	loadBank Tiles
+	loadBank BANK(Tiles)
 	ld hl, Tiles
 	ld de, tileDataBGOBJ
 	ld bc, (TileDataEnd - Tiles)
-	call copy ; c'est de la VRAM, mais l'écran est éteint.
+	call copyToVRAM ; c'est de la VRAM, mais l'écran est éteint.
 	ld hl, unlicenseTileMap
 	ld de, tileMap
 	ld bc, (introTileMap - unlicenseTileMap)
-	call copy
+	call copyToVRAM
 
-	xor a
-	ld hl, OAMbuffer
-	ld bc, $A0
-	rst fill ; on vide l'OAMbuffer, qu'on transfèrera plus tard
-
-; on remet le scroll à 0
+	xor a ; on remet le scroll à 0
 	ld [SCY], a
 	ld [SCX], a
 
-	or %10010101 ; a = %10011101
+	or %11010101 ; a = %10011101
 	; IE : LCD ON,
-	;      Window [9800 - 9C00],
+	;      Window [9C00 - 9FFF],
 	;      Window OFF,
 	;      BG tiles [8000 - 8FFF],
 	;      BG tileMap [9800 - 9BFF],
@@ -57,7 +51,7 @@ Start:: ; here we begin our adventure !
 	;      BG ON.
 	ld [LCDC], a
 
-	xor %01110001 ; a = %11 10 01 00 ($E4)
+	xor %00110001 ; a = %11 10 01 00 ($E4)
 	ld [BGP], a
 	ld [OBP0], a
 	ld [OBP1], a
@@ -82,7 +76,7 @@ Start:: ; here we begin our adventure !
 	; a = 0 après exécution ;)
 
 	halt
-	or %10010111
+	or %11010111
 	ld [LCDC], a
 
 ; attente pour l'intro
@@ -115,6 +109,7 @@ Start:: ; here we begin our adventure !
 	rst delayAframes
 scrollDown::
 	inc a
+	inc a
 	halt
 	ld [SCY], a
 	cp $90
@@ -127,7 +122,7 @@ scrollDown::
 	ld hl, motdTiles
 	ld de, $9AC2
 printMOTD::
-	ld a, 10
+	ld a, 7
 	rst delayAframes ; puts us at the end of a Vblank
 	ld a, [hli]
 	ld [de], a
@@ -136,7 +131,7 @@ printMOTD::
 	jp nz, printMOTD
 	ld de, $9B02
 printMOTD2::
-	ld a, 10
+	ld a, 7
 	rst delayAframes ; puts us at the end of a Vblank
 	ld a, [hli]
 	ld [de], a
@@ -164,13 +159,13 @@ blinkPushSTART1::
 	and [hl]
 	dec b
 	jr nz, blinkPushSTART1
-	ld d, a
+	ld e, a
 	xor a
 	ld hl, $9BE1
 	ld bc, pushSTARTtilesEnd - pushSTARTtiles
 	halt
 	rst fill
-	ld a, d
+	ld a, e
 	ld b, 20
 	ld hl, JOYP
 blinkPushSTART2::
@@ -200,9 +195,3 @@ blinkSTART::
 	pop bc
 	dec b
 	jr nz, blinkSTART
-	
-	ld hl, menuOptions
-	ld de, $9BA5
-	ld bc, menuOptionsEnd - menuOptions
-	call copyToVRAM
-	ld de, $9BA5

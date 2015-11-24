@@ -17,14 +17,14 @@ copyToVRAM::
 
 	inc b
 copyVRAM::
-	ld a, [hli]
-	ld [de], a
-	inc de
 	ld a, [STAT]
 	and %00000010 ; on ne garde qu'un des bits de l'état du LCD pour traiter 0 et 1, ainsi que 2 et 3, comme un seul cas
 	jp z, skipWaitFreeVRAMaccess ; si on est en mode 2 ou 3, on ne peut pas copier ; on va donc attendre.
 	halt ; on attend un Vblank ou un Hblank, les deux se valent
 skipWaitFreeVRAMaccess::
+	ld a, [hli]
+	ld [de], a
+	inc de
 	dec c
 	jp nz, copyVRAM
 	dec b
@@ -40,6 +40,7 @@ fillToVRAM::
 	ld [STAT], a
 
 	inc b
+	halt
 fillVRAM::
 	ld [hl], d
 	inc hl
@@ -57,41 +58,33 @@ VRAMisFree::
 	ld [STAT], a
 	ret
 
-DMAscript::
-	halt ; attente d'un Vblank
-	ld a, $C0
-	ld [DMA], a ; démarrage du transfert DMA ($C000 -> $C09F)
-	xor %11101000 ; $C0 xor $E8 = $28
-DMAloop:: ; $07E
-	dec a
-	jr nz, DMAloop ; ne PAS utiliser jp !!
-	ret ; NB : retourne a = 0
-DMAscriptEnd::
+; détruit a et b, retourne un pointeur dans hl vers le nom du niveau n°a
+getLevelName:: ; assume que la banque 2 est chargée
+	and $7F ; le wrap graphique est géré ici, c'est plus simple
+	; d'abord, a * 90, càd 2 * 5 * 3 * 3
 
-getKeys::
-	ld a, selectDpad
-	ld [JOYP], a
-	ld a, [JOYP]
-	ld a, [JOYP]
-	cpl
-	and $0F
-	swap a
-	ld b, a
-	ld a, selectButtons
-	ld [JOYP], a
-REPT 6
-	ld a, [JOYP]
-ENDR
-	cpl
-	and $0F
-	or b
-	ld b, a
-	ld a, [OLDJOYP]
-	xor b
-	and b
-	ld [NEWJOYP], a
-	ld a, b
-	ld [OLDJOYP], a
-	ld a, $30
-	ld [JOYP], a
+	; cette multiplication par 3 prend autant d'octets mais est plus rapide
+	ld l, a
+	add a, a ; a varie entre 00 et FE
+	add a, l ; seule cette opération peut overflow, puisque a varie entre 00 et 7F
+	ld l, a ; on stocke a * 3
+	xor a
+	rla
+	ld h, a ; on récupère le carry dans h
+
+	add hl, hl ; on double hl
+
+	ld b, h ; une multiplication par 3
+	ld c, l
+	add hl, hl
+	add hl, bc
+
+	ld b, h ; et une autre par 5
+	ld c, l
+	add hl, hl
+	add hl, hl
+	add hl, bc
+
+	ld bc, $4014
+	add hl, bc
 	ret

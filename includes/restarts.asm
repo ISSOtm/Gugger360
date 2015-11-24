@@ -1,63 +1,101 @@
-SECTION "rst $00", HOME[$00] ; 7 octets
-callFarBank:: ; charge la banque a, saute à hl, et retourne à la banque c, à l'adresse [sp]
-	push bc
+; 
+; 
+; 
+SECTION "rst $00", HOME[$00]
+rst00::
+	ret
+
+; charge la banque a, puis saute à hl
+; 4 octets seulement :P
+; préserve bc et de, a vaut l'ID de la banque du script, et hl l'adresse atteinte
+SECTION "rst $08", HOME[$08]
+jumpFarBank::
 	ld [bankSwitch], a
 	jp [hl]
-	pop af
-	pop hl
-	nop ; continue au instructions suivantes ; plus rapide !
 
-SECTION "rst $08", HOME[$08] ; 4 octets :P
-jumpFarBank:: ; charge la banque a, puis saute à hl
-	ld [bankSwitch], a
-	jp [hl]
-
-SECTION "rst $10", HOME[$0D] ; 11 octets !
-handleCunderflow::
-	ret z
-	dec b
-	dec c
-fillMemory:: ; ATTENTION ! Ne PAS tenter de "remplir" l'OAM avec cette routine !!
-	inc b
-fillBytes:: ; remplit bc octets à partir de [hl]
-	ldi [hl], a
-	dec c
-	jr nz, fillBytes
-	dec b
-	jr handleCunderflow
-	
-SECTION "rst $18", HOME[$18]
-waitFrames:: ; attend a frames
+; attend a frames
+; 7 octets
+; a vaut 0
+SECTION "rst $10", HOME[$10]
+waitFrames::
 	halt
 	dec a
 	jp nz, waitFrames
-	ret ; side effect : a = 0
+	ret
 
+; remplit bc octets à partir de [hl]
+; 9 octets !
+; Ne préserve que e
+; ATTENTION ! Ne PAS tenter de "remplir" l'OAM avec cette routine !!
+SECTION "rst $18", HOME[$17]
+fillMemory::
+	ld a, d
+fillBytes::
+	ldi [hl], a
+	ld d, a
+	dec bc
+	ld a, b
+	or c
+	jr nz, fillMemory
+	ret
+
+; 
+; 
+; 
 SECTION "rst $20", HOME[$20]
 rst20::
 	ret
 
+; 
+; 
+; 
 SECTION "rst $28", HOME[$28]
 rst28::
 	ret
 
+; 
+; 
+; 
 SECTION "rst $30", HOME[$30]
 rst30::
 	ret
 
+; NOTICE !!
+; Peut être appelé conditionnellement !
+; il suffit d'effectuer un push de l'adresse retour, puis un jr [condition], @+1
+; si la condition est remplie, le jump s'effectuera un octet en arrière, et lira un "rst 38".
+; C'est un hack un peu bizarre, je recommande d'utiliser la macro callFar
+
+; charge la banque a, saute à hl, et retourne à la banque c, à l'adresse [sp]
+; 7 octets seulement :O
+; même side effects que jumpFarBank, mais ne préserve que de
 SECTION "rst $38", HOME[$38]
-rst38::
-	ret
+callFarBank::
+	push bc
+	rst $08 ; effectue le premier swapBank, et nous fait retourner ici
+	pop af
+	pop hl
+	jp jumpFarBank ; effectue le second swapBank, et quitte.
 
 
-; interrupt vectors
+; Routines d'interruption
+
+; utilisé, mais ne sert qu'à quitter le mode HALT
 SECTION "vblank", HOME[$40]
 	reti
+
+; idem
 SECTION "hblank", HOME[$48]
 	reti
+
+; inutilisé
 SECTION "timer",  HOME[$50]
 	reti
+
+; inutilisé
 SECTION "serial", HOME[$58]
 	reti
+
+; inutilisé
 SECTION "joypad", HOME[$60]
 	reti

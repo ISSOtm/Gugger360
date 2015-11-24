@@ -13,7 +13,7 @@ echo LINKING TERMINE
 echo.
 echo.
 echo === FIXING ===
-rgbfix -p 0 -t "GUGGER360" -k "  " -s -l 0x33 -j -v gugger.gb
+rgbfix -p 0 -t "GUGGER360" -s -l 0x33 -j -v gugger.gb
 echo.
 echo FIXING TERMINE
 echo.

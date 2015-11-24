@@ -1,78 +1,89 @@
 ROM Bank #0 (HOME):
-  SECTION: $0000-$0007 ($0008 bytes)
-           $0000 = callFarBank
+  SECTION: $0000-$0000 ($0001 bytes)
+           $0000 = rst00
   SECTION: $0008-$000B ($0004 bytes)
            $0008 = jumpFarBank
-  SECTION: $000D-$0017 ($000B bytes)
-           $0011 = fillBytes
-           $0010 = fillMemory
-           $000D = handleCunderflow
-  SECTION: $0018-$001E ($0007 bytes)
-           $0018 = waitFrames
+  SECTION: $0010-$0016 ($0007 bytes)
+           $0010 = waitFrames
+  SECTION: $0017-$001F ($0009 bytes)
+           $0018 = fillBytes
+           $0017 = fillMemory
   SECTION: $0020-$0020 ($0001 bytes)
            $0020 = rst20
   SECTION: $0028-$0028 ($0001 bytes)
            $0028 = rst28
   SECTION: $0030-$0030 ($0001 bytes)
            $0030 = rst30
-  SECTION: $0038-$0038 ($0001 bytes)
-           $0038 = rst38
+  SECTION: $0038-$003E ($0007 bytes)
+           $0038 = callFarBank
   SECTION: $0040-$0040 ($0001 bytes)
   SECTION: $0048-$0048 ($0001 bytes)
   SECTION: $0050-$0050 ($0001 bytes)
   SECTION: $0058-$0058 ($0001 bytes)
   SECTION: $0060-$0060 ($0001 bytes)
-  SECTION: $0068-$00EE ($0087 bytes)
+  SECTION: $0068-$00C8 ($0061 bytes)
            $0069 = copyBytes
-           $0086 = skipWaitFreeVRAMaccess
+           $0083 = skipWaitFreeVRAMaccess
            $007A = copyVRAM
-           $00A3 = VRAMisFree
-           $0098 = fillVRAM
+           $00A5 = VRAMisFree
+           $009A = fillVRAM
            $0092 = fillToVRAM
-           $0068 = copy
-           $00AF = DMAscript
-           $00BB = DMAscriptEnd
            $0075 = copyToVRAM
-           $00BB = getKeys
-           $00B7 = DMAloop
+           $0068 = copy
+           $00B1 = getLevelName
   SECTION: $0100-$014F ($0050 bytes)
-  SECTION: $0150-$02D2 ($0183 bytes)
+  SECTION: $0150-$03DE ($028F bytes)
            $0150 = Start
-           $021F = printMOTD
-           $022C = printMOTD2
-           $02C5 = afterTitleMenu
-           $0252 = blinkPushSTART1
-           $026B = blinkPushSTART2
-           $023F = pushSTART
-           $02A8 = titleMenuCursor
-           $02B8 = switchTitleCursorPos
-           $0279 = blinkSTART
-           $020C = scrollDown
-    SLACK: $3D7F bytes
+           $0212 = printMOTD
+           $021F = printMOTD2
+           $02A4 = scrollScreen
+           $032F = moveLevelSelectCursor
+           $02F0 = levelSelectMenu
+           $033A = loadLevel
+           $01FE = scrollDown
+           $02B0 = printSelectedLevelsName
+           $037B = moveSprites
+           $0399 = putDigits
+           $03B4 = compareDigitList
+           $0290 = levelSelect
+           $03BE = levelEnd
+           $0245 = blinkPushSTART1
+           $025E = blinkPushSTART2
+           $0232 = pushSTART
+           $02A6 = scrollToLevelSelect
+           $026C = blinkSTART
+           $02E3 = waitReleaseDpad
+           $03D9 = gameLoop
+           $0373 = drawLevel
+    SLACK: $3C9C bytes
 
 ROM Bank #1:
-  SECTION: $4000-$4D70 ($0D71 bytes)
+  SECTION: $4000-$4DD9 ($0DDA bytes)
            $426C = Tiles
-           $49AC = TileDataEnd
+           $4A4C = TileDataEnd
            $4000 = unlicenseTileMap
            $4130 = introTileMap
-           $4CF5 = sprites
-           $4D71 = spritesEnd
+           $4DCE = DMAscript
+           $4DDA = DMAscriptEnd
+           $4D52 = sprites
+           $4DCE = spritesEnd
            $4261 = introTileMap2
-           $4A06 = titleTiles
-           $4BE6 = titleTilesEnd
-           $4BE6 = titleTileMap
-           $4C79 = titleTileMapEnd
-           $4C79 = motdTiles
-           $4C9B = pushSTARTtiles
-           $4CAD = pushSTARTtilesEnd
-           $4CAD = menuOptions
-           $4CF5 = menuOptionsEnd
-    SLACK: $328F bytes
+           $4AAB = titleTiles
+           $4C8B = titleTilesEnd
+           $4C8B = titleTileMap
+           $4D1E = titleTileMapEnd
+           $4D1E = motdTiles
+           $4D40 = pushSTARTtiles
+           $4D52 = pushSTARTtilesEnd
+           $4DD6 = DMAloop
+    SLACK: $3226 bytes
 
 ROM Bank #2:
-  SECTION: $4000-$3FFF ($0000 bytes)
-  EMPTY
+  SECTION: $4000-$6E8F ($2E90 bytes)
+           $6D00 = levelSelectTileMap
+           $6E90 = levelSelectTileMapEnd
+           $6D70 = levelSelectClearMap
+    SLACK: $1170 bytes
 
 WRAM Bank #0:
   EMPTY
