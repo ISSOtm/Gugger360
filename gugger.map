@@ -1,6 +1,6 @@
 ROM Bank #0 (HOME):
-  SECTION: $0000-$0000 ($0001 bytes)
-           $0000 = rst00
+  SECTION: $0000-$0005 ($0006 bytes)
+           $0000 = multBy12
   SECTION: $0008-$000B ($0004 bytes)
            $0008 = jumpFarBank
   SECTION: $0010-$0016 ($0007 bytes)
@@ -21,7 +21,7 @@ ROM Bank #0 (HOME):
   SECTION: $0050-$0050 ($0001 bytes)
   SECTION: $0058-$0058 ($0001 bytes)
   SECTION: $0060-$0060 ($0001 bytes)
-  SECTION: $0068-$00C8 ($0061 bytes)
+  SECTION: $0068-$00C9 ($0062 bytes)
            $0069 = copyBytes
            $0083 = skipWaitFreeVRAMaccess
            $007A = copyVRAM
@@ -32,41 +32,61 @@ ROM Bank #0 (HOME):
            $0068 = copy
            $00B1 = getLevelName
   SECTION: $0100-$014F ($0050 bytes)
-  SECTION: $0150-$03DE ($028F bytes)
+  SECTION: $0150-$054C ($03FD bytes)
            $0150 = Start
-           $0212 = printMOTD
-           $021F = printMOTD2
-           $02A4 = scrollScreen
-           $032F = moveLevelSelectCursor
-           $02F0 = levelSelectMenu
-           $033A = loadLevel
-           $01FE = scrollDown
-           $02B0 = printSelectedLevelsName
-           $037B = moveSprites
-           $0399 = putDigits
-           $03B4 = compareDigitList
-           $0290 = levelSelect
-           $03BE = levelEnd
-           $0245 = blinkPushSTART1
-           $025E = blinkPushSTART2
-           $0232 = pushSTART
-           $02A6 = scrollToLevelSelect
-           $026C = blinkSTART
-           $02E3 = waitReleaseDpad
-           $03D9 = gameLoop
-           $0373 = drawLevel
-    SLACK: $3C9C bytes
+           $0216 = printMOTD
+           $0223 = printMOTD2
+           $02AE = scrollScreen
+           $033D = moveLevelSelectCursor
+           $02FC = levelSelectMenu
+           $0348 = loadLevel
+           $0202 = scrollDown
+           $02BA = printSelectedLevelsName
+           $0502 = beginStage
+           $0393 = putDigits
+           $03B1 = compareDigitList
+           $03CC = resetSprite
+           $0298 = levelSelect
+           $03FF = resetSlots
+           $04A4 = refreshSprites
+           $0411 = selectSlots
+           $043B = swapSlots
+           $038B = redrawDigits
+           $046E = copyCircle
+           $03E6 = selectCircle
+           $04A7 = waitDpadRelease
+           $042E = rotateCircle1
+           $045D = rotateCircle2
+           $03BB = levelEnd
+           $04A7 = gameLoop
+           $0518 = moveSprites
+           $0249 = blinkPushSTART1
+           $0262 = blinkPushSTART2
+           $0236 = pushSTART
+           $0543 = unscrollGoal
+           $02B0 = scrollToLevelSelect
+           $0504 = scrollGoal
+           $0270 = blinkSTART
+           $04EF = pauseGame
+           $048F = selectPrevCircle
+           $044C = swapLastSlot
+           $03E3 = waitSelectCircle
+           $047A = selectNextCircle
+           $02ED = waitReleaseDpad
+           $03C8 = resetSprites
+           $0510 = drawLevel
+    SLACK: $3B28 bytes
 
 ROM Bank #1:
-  SECTION: $4000-$4DD9 ($0DDA bytes)
+  SECTION: $4000-$4DF5 ($0DF6 bytes)
            $426C = Tiles
            $4A4C = TileDataEnd
            $4000 = unlicenseTileMap
            $4130 = introTileMap
-           $4DCE = DMAscript
-           $4DDA = DMAscriptEnd
+           $4DEA = DMAscript
+           $4DF6 = DMAscriptEnd
            $4D52 = sprites
-           $4DCE = spritesEnd
+           $4DEA = spritesEnd
            $4261 = introTileMap2
            $4AAB = titleTiles
            $4C8B = titleTilesEnd
@@ -75,15 +95,15 @@ ROM Bank #1:
            $4D1E = motdTiles
            $4D40 = pushSTARTtiles
            $4D52 = pushSTARTtilesEnd
-           $4DD6 = DMAloop
-    SLACK: $3226 bytes
+           $4DF2 = DMAloop
+    SLACK: $320A bytes
 
 ROM Bank #2:
-  SECTION: $4000-$6E8F ($2E90 bytes)
+  SECTION: $4000-$6F0F ($2F10 bytes)
            $6D00 = levelSelectTileMap
-           $6E90 = levelSelectTileMapEnd
-           $6D70 = levelSelectClearMap
-    SLACK: $1170 bytes
+           $6F10 = levelSelectTileMapEnd
+           $6DF0 = levelSelectClearMap
+    SLACK: $10F0 bytes
 
 WRAM Bank #0:
   EMPTY

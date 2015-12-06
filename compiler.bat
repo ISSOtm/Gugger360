@@ -23,7 +23,14 @@ del gugger.obj
 echo.
 echo CLEANUP TERMINE
 echo.
+pause
 echo.
 echo.
-echo LE FICHIER EST PRET !
+echo === COMPRESSION ===
+del gugger.zip
+"%ProgramFiles%\7-Zip\7z" a gugger.zip gugger.gb gugger.map gugger.sym readme.txt manuel.png -mmt
+echo.
+echo COMPRESSION TERMINEE
+echo.
+echo LES FICHIERS SONT PRETS !
 pause

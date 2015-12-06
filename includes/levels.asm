@@ -2,19 +2,26 @@
 ; les niveaux prennent l'aire de $4000 à $6CFF
 SECTION "Levels", DATA, BANK[2]
 ; niveau 0
-	db 12, 8
-	db 14, 14
-	db 22, 22
-	db 30, 30
-	db 38, 38
-	db 46, 46
-	db 54, 54
-	db 62, 62
-	db 70, 70
-	db 78, 78
+	db 27, 31
+	db 37, 46
+	db 47, 61
+	db 57, 76
+	db 67, 91
+	db 77, 106
+	db 87, 121
+	db 96, 136
+	db 96, 137
+	db 109, 137
 	db "ENTRAINEMENT" ; 12 chars
-	ds 4 * 12
-	db $09, $08, $07, $06, $05, $04, $03, $02, $01, $00
+	db $6D, $1B
+	db 0, 1, $FF, 0, 0, 0, 0, 0, 0, 0
+	db $5D, $1B
+	db 2, 3, $FF, 0, 0, 0, 0, 0, 0, 0
+	db $4D, $1B
+	db 4, 5, $FF, 0, 0, 0, 0, 0, 0, 0
+	db $3D, $1B
+	db 6, 7, $FF, 0, 0, 0, 0, 0, 0, 0
+	db 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
 
 ; niveau 1
 	ds 20
@@ -32,6 +39,8 @@ ENDR
 ; Tile Maps liées aux niveaux
 ; Dans cette banque pour ne pas avoir à charger l'autre banque
 levelSelectTileMap::
+	db "VOTRE OBJECTIF :"
+	ds $70
 	db $74
 REPT 14
 	db $78

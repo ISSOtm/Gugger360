@@ -60,15 +60,16 @@ VRAMisFree::
 
 ; détruit a et b, retourne un pointeur dans hl vers le nom du niveau n°a
 getLevelName:: ; assume que la banque 2 est chargée
-	and $7F ; le wrap graphique est géré ici, c'est plus simple
+	and maxLevel ; le wrap graphique est géré ici, c'est plus simple
+	; NB : reset du carry !
 	; d'abord, a * 90, càd 2 * 5 * 3 * 3
 
-	; cette multiplication par 3 prend autant d'octets mais est plus rapide
+	; cette multiplication par 3 prend autant d'octets mais est plus rapide qu'en 16-bit
 	ld l, a
-	add a, a ; a varie entre 00 et FE
+	rla ; a varie entre 00 et FE, et le carry valait 0
 	add a, l ; seule cette opération peut overflow, puisque a varie entre 00 et 7F
 	ld l, a ; on stocke a * 3
-	xor a
+	ld a, 0 ; utiliser xor a reset le carry
 	rla
 	ld h, a ; on récupère le carry dans h
 

@@ -1,8 +1,13 @@
-; 
-; 
-; 
+; multiplie a par 12 si a <= 42 (attention au carry pour a > 21 !)
+; 6 octets, et en plus, rapide :)
+; détruit b, qui vaut a (avant multiplication)
 SECTION "rst $00", HOME[$00]
-rst00::
+multBy12::
+	ld d, a ; 0 < a < 3
+	rla ; 0 < a < 6
+	add a, d ; 0 < a < 9
+	rla ; 0 < a < 18
+	rla ; 0 < a < 36
 	ret
 
 ; charge la banque a, puis saute à hl

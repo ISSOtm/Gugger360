@@ -16,14 +16,14 @@ Start:: ; here we begin our adventure !
 	rst delayAframes
 
 	xor a
-	ld [WY], a
-
 	ld hl, tileDataBGOBJ
 	ld bc, $2000
 	call fillToVRAM ; on efface la VRAM pour être sûr de ce qu'il y a
 	
-	or $80
+	or $07
 	ld [WX], a
+	xor $97
+	ld [WY], a
 
 ; on reset tous les graphismes
 	loadBank BANK(Tiles)
@@ -40,20 +40,21 @@ Start:: ; here we begin our adventure !
 	ld [SCY], a
 	ld [SCX], a
 
-	or %11010101 ; a = %10011101
+	or %10110101 ; a = %10011101
 	; IE : LCD ON,
-	;      Window [9C00 - 9FFF],
-	;      Window OFF,
+	;      Window [9800 - 9BFF],
+	;      Window ON,
 	;      BG tiles [8000 - 8FFF],
 	;      BG tileMap [9800 - 9BFF],
 	;      sprites en 8x16 pixels,
-	;      sprites OFF,
+	;      sprites OFF, le temps de vider l'OAM,
 	;      BG ON.
 	ld [LCDC], a
 
-	xor %00110001 ; a = %11 10 01 00 ($E4)
+	xor %01010001 ; a = %11 10 01 00 ($E4)
 	ld [BGP], a
 	ld [OBP0], a
+	xor %00011100
 	ld [OBP1], a
 	
 	xor a
@@ -76,7 +77,7 @@ Start:: ; here we begin our adventure !
 	; a = 0 après exécution ;)
 
 	halt
-	or %11010111
+	or %10110111
 	ld [LCDC], a
 
 ; attente pour l'intro

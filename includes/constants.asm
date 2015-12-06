@@ -1,6 +1,6 @@
 ; ============= EQUATES =============
 ; ------------- RESTART -------------
-;rst00          equ $00
+x12            equ $00
 jumpFar        equ $08
 delayAframes   equ $10
 fill           equ $18
@@ -8,30 +8,6 @@ fill           equ $18
 ;rst28          equ $28
 ;rst30          equ $30
 callFar        equ $38
-
-; ----------- BANK SWITCH -----------
-bankSwitch     equ $2100 ; pas $2000 à cause du MBC2
-currentRomBank equ $FFB4
-
-; ----------- GRAPHISMES ------------
-; adresses des tuiles graphiques
-tileDataBGOBJ  equ $8000
-tileDataBGWIN  equ $8800
-
-; adresses de la tile map
-tileMap        equ $9800
-tileMap2       equ $9C00
-
-; adresses des tile map destinations
-tileMapTitle   equ $99FE
-lvSelectTiles  equ $98A2
-
-OAMbuffer      equ $C000 ; adresse du buffer transféré à l'OAM
-DMAtransfer    equ $FF80 ; adresse à appeler pour lancer le transfert DMA
-
-; -------------- WRAM ---------------
-titleScreenBuf equ $C1E0
-options        equ $C1DE
 
 ; ------------- JOYPAD --------------
 selectDpad     equ %00100000
@@ -47,14 +23,47 @@ buttonSelect   equ %00000100
 buttonB        equ %00000010
 buttonA        equ %00000001
 
-OLDJOYP        equ $C1DE
-NEWJOYP        equ $C1DF
+; -------------- MISC ---------------
+maxLevel       equ $04 - 1
+
+
+; ============ ADRESSES =============
+; ----------- BANK SWITCH -----------
+bankSwitch     equ $2100 ; pas $2000 à cause du MBC2
+currentRomBank equ $FFB4
+
+; ----------- GRAPHISMES ------------
+; adresses des tuiles graphiques
+tileDataBGOBJ  equ $8000
+tileDataBGWIN  equ $8800
+
+; adresses de la tile map
+tileMap        equ $9800
+tileMap2       equ $9C00
+
+; adresses des tile map destinations
+tileMapTitle   equ $99FE
+lvSelectTiles  equ $9822
+
+OAMbuffer      equ $C000 ; adresse du buffer transféré à l'OAM
+DMAtransfer    equ $FF80 ; adresse à appeler pour lancer le transfert DMA
+
+; -------------- WRAM ---------------
+options        equ $C0FC
+currentCircle  equ $C0FD
+currentLevel   equ $C0FE
+firstSwapped   equ $C0FF
+
+; ------------- JOYPAD --------------
+OLDJOYP        equ $C0FA
+NEWJOYP        equ $C0FB
 
 ; ------------- NIVEAU --------------
 slotCoords     equ $C0A0 ; Paires de coordonnées pour chaque slot
 levelName      equ $C0B4 ; Nom du niveau (en ASCII, bien sûr !)
 circles        equ $C0C0 ; Liste des slots pour chaque cercle
 currentIDs     equ $C0F0 ; Liste des IDs de chaque slot
+circleCopyBuf  equ $C100 ; Copie inversée du cercle
 
 
 ; =========== CONSTANTES ============
